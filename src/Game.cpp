@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "Renderer.hpp"
 
 void Game::initialize() {
     board_.setTile(GridPosition{0, 0}, Tile{TileType::Source});
@@ -10,8 +11,9 @@ void Game::initialize() {
 void Game::render() const {
     for (int y = 0; y < Board::SIZE; y++) {
         for (int x = 0; x < Board::SIZE; x++) {
-            Tile tile = board_.getTile(GridPosition{x, y});
-            drawRect(x, y, static_cast<int>(tile.type)); // ここからだと呼び出せない
+            GridPosition pos = GridPosition{x, y};
+            Tile tile = board_.getTile(pos);
+            render::drawTile(pos, tile.type);
         }
     }
 }
