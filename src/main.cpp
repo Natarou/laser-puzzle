@@ -34,17 +34,19 @@ EM_JS(void, drawRect, (int x, int y, int tileType), {
 int main () {
     Board board;
 
-    board.setTile(GridPosition{0, 0}, Tile{TileType::Source});
-    board.setTile(GridPosition{3, 2}, Tile{TileType::Mirror});
-    board.setTile(GridPosition{3, 5}, Tile{TileType::Goal});
+    // Game::initialize() に移植
+    // board.setTile(GridPosition{0, 0}, Tile{TileType::Source});
+    // board.setTile(GridPosition{3, 2}, Tile{TileType::Mirror});
+    // board.setTile(GridPosition{3, 5}, Tile{TileType::Goal});
 
+    // Game::render() に移植
     // 盤面を描画
-    for (int y = 0; y < Board::SIZE; y++) {
-        for (int x = 0; x < Board::SIZE; x++) {
-            Tile tile = board.getTile(GridPosition{x, y});
-            drawRect(x, y, static_cast<int>(tile.type));
-        }
-    }
+    // for (int y = 0; y < Board::SIZE; y++) {
+    //     for (int x = 0; x < Board::SIZE; x++) {
+    //         Tile tile = board.getTile(GridPosition{x, y});
+    //         drawRect(x, y, static_cast<int>(tile.type));
+    //     }
+    // }
 
     return 0;
 }
