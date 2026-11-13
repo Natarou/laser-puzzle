@@ -19,6 +19,6 @@ void Board::setTile(GridPosition pos, Tile tile) {
 }
 
 bool Board::isInsideGrid(GridPosition pos) const {
-    return 0 <= pos.x && pos.x < BOARD_SIZE
-        && 0 <= pos.y && pos.y < BOARD_SIZE;
+    return 0 <= pos.x && pos.x < Board::SIZE
+        && 0 <= pos.y && pos.y < Board::SIZE;
 }

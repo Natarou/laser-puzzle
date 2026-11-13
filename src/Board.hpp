@@ -2,9 +2,6 @@
 
 #include <array>
 
-// コンパイル時に値が決まっている定数
-constexpr int BOARD_SIZE = 6;
-
 // タイルの種類
 enum class TileType {
     Empty, // 何もない
@@ -37,6 +34,8 @@ class Board {
 public:
     Board();
 
+    static constexpr int SIZE = 6; // 盤面の一辺のサイズ
+
     Tile getTile(GridPosition pos) const; // 読み取るだけで、変更しないので const
     void setTile(GridPosition pos, Tile tile);
     bool isInsideGrid(GridPosition pos) const; // 指定座標が盤面内か
@@ -46,8 +45,8 @@ private:
     // std::array<std::array<TileType, BOARD_SIZE>, BOARD_SIZE> tiles_; // メンバ変数は末尾に _ を付ける
 
     // 型に名前を付けて読みやすく
-    using Row = std::array<Tile, BOARD_SIZE>; // 行
-    using Grid = std::array<Row, BOARD_SIZE>; // 盤面全体
+    using Row = std::array<Tile, SIZE>; // 行
+    using Grid = std::array<Row, SIZE>; // 盤面全体
 
     Grid tiles_;
 };
