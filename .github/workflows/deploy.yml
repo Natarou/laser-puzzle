@@ -21,7 +21,7 @@ concurrency:
 # 実行する仕事
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     environment:
       name: github-pages
@@ -46,7 +46,6 @@ jobs:
       - name: Prepare website
         run: |
           cp web/index.html _site/index.html
-          touch _site/.nojekyll
 
       # GitHub Pages の準備
       - name: Setup Pages
