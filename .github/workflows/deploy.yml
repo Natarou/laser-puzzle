@@ -1,0 +1,63 @@
+name: Build and Deploy Laser Puzzle
+
+# いつワークフローを実行するか
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# ワークフローに与える権限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同じ Pages へのデプロイを同時に実行しない
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+# 実行する仕事
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # リポジトリのソースコードを取得
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      # Emscripten をインストール
+      - name: Setup Emscripten
+        uses: emscripten-core/setup-emsdk@v15
+
+      # ビルド
+      - name: Build WebAssembly
+        run: |
+          mkdir -p _site/build
+          em++ src/main.cpp -o _site/build/main.js
+
+      # HTML を公開用ディレクトリにコピー
+      - name: Prepare website
+        run: |
+          cp web/index.html _site/index.html
+
+      # GitHub Pages の準備
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # 公開ファイルをアップロード
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      # GitHub Pages にデプロイ
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
