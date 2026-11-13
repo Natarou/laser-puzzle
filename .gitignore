@@ -1,5 +1,8 @@
 # ローカルのビルド用
-/build/
+build/
 
 # 公開時に作成される
 /_site/
+
+# vscode 設定
+/.vscode/
