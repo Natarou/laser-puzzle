@@ -2,7 +2,7 @@
 #include "Board.hpp"
 
 Board::Board() {
-    for (auto& row : tiles_) {
+    for (auto &row : tiles_) {
         // fill で全ての要素に同じ値を代入
         row.fill(Tile{}); // {} 付けると初期化された構造体のオブジェクトが得られる
     }
@@ -18,7 +18,9 @@ void Board::setTile(GridPosition pos, Tile tile) {
     tiles_.at(pos.y).at(pos.x) = tile;
 }
 
+// clang-format off
 bool Board::isInsideGrid(GridPosition pos) const {
     return 0 <= pos.x && pos.x < Board::SIZE
         && 0 <= pos.y && pos.y < Board::SIZE;
 }
+// clang-format on

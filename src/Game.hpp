@@ -3,10 +3,10 @@
 #include "Board.hpp"
 
 class Game {
-public:
-    void initialize();
-    void render() const;
+    public:
+        void initialize();
+        void render() const;
 
-private:
-    Board board_;
+    private:
+        Board board_;
 };

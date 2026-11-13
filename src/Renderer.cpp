@@ -1,5 +1,5 @@
-#include <emscripten/emscripten.h>
 #include "Renderer.hpp"
+#include <emscripten/emscripten.h>
 
 // C++ から呼び出せる JS 関数を定義
 // (戻り値の型, 関数名, 引数)
@@ -32,8 +32,8 @@ EM_JS(void, jsDrawTile, (int x, int y, int tileType), {
 
 namespace render {
 
-void drawTile(GridPosition pos, TileType type) {
-    jsDrawTile(pos.x, pos.y, static_cast<int>(type));
-}
+    void drawTile(GridPosition pos, TileType type) {
+        jsDrawTile(pos.x, pos.y, static_cast<int>(type));
+    }
 
-}
+} // namespace render

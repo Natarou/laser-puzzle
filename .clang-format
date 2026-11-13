@@ -1,16 +1,20 @@
 BasedOnStyle: LLVM
 
+# インデント
 IndentWidth: 4
+ContinuationIndentWidth: 4
 UseTab: Never
 
-# 波括弧は同じ行に置く
-BreakBeforeBraces: Attach
-
-# アクセス指定子もインデントする
+# namespace と public/private
+NamespaceIndentation: All
 IndentAccessModifiers: true
 
-# namespace 内もインデントする
-NamespaceIndentation: All
+# 波括弧は同じ行
+BreakBeforeBraces: Attach
 
-# 1行の最大文字数
-ColumnLimit: 100
+# 短い関数も1行にまとめない
+AllowShortFunctionsOnASingleLine: None
+AllowShortBlocksOnASingleLine: Never
+
+# 手動で入れた改行をできるだけ維持する
+ColumnLimit: 0
