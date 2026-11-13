@@ -1,0 +1,20 @@
+BasedOnStyle: LLVM
+
+# インデント
+IndentWidth: 4
+ContinuationIndentWidth: 4
+UseTab: Never
+
+# namespace と public/private
+NamespaceIndentation: All
+IndentAccessModifiers: true
+
+# 波括弧は同じ行
+BreakBeforeBraces: Attach
+
+# 短い関数も1行にまとめない
+AllowShortFunctionsOnASingleLine: None
+AllowShortBlocksOnASingleLine: Never
+
+# 手動で入れた改行をできるだけ維持する
+ColumnLimit: 0
