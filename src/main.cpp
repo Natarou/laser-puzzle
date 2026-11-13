@@ -13,6 +13,8 @@ EM_JS(void, drawRect, (int x, int y), {
 
 int main () {
     drawRect(100, 80);
+    drawRect(200, 120);
+    drawRect(300, 200);
 
     return 0;
 }
