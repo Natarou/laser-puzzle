@@ -46,7 +46,7 @@ private:
 
     // 型に名前を付けて読みやすく
     using Row = std::array<Tile, BOARD_SIZE>; // 行
-    using Glid = std::array<Row, BOARD_SIZE>; // 盤面全体
+    using Grid = std::array<Row, BOARD_SIZE>; // 盤面全体
 
-    Glid tiles_;
+    Grid tiles_;
 };
