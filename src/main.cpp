@@ -5,7 +5,8 @@
 // (戻り値の型, 関数名, 引数)
 EM_JS(void, drawRect, (int x, int y, int tileType), {
     // この中は JS
-    const int CELL_SIZE = 50; // こいつがここで CELL_SIZE の情報を持つとよろしくない気がするけど一旦
+    // TODO: CELL_SIZE を誰が持つかは要検討
+    const CELL_SIZE = 50;
 
     const canvas = document.getElementById("game");
     const ctx = canvas.getContext("2d");
@@ -17,8 +18,8 @@ EM_JS(void, drawRect, (int x, int y, int tileType), {
         "#2ecc71", // Goal
     ];
 
-    const int drawX = x * CELL_SIZE;
-    const int drawY = y * CELL_SIZE;
+    const drawX = x * CELL_SIZE;
+    const drawY = y * CELL_SIZE;
 
     // マスそのもの
     ctx.fillStyle = colors[tileType];
