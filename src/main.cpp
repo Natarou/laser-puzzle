@@ -1,6 +1,20 @@
-#include <iostream>
+#include <emscripten/emscripten.h>
 
-int main() {
-    std::cout << "Hello, World!!!!!!" << std::endl;
+// C++ から呼び出せる JS 関数を定義
+// (戻り値の型, 関数名, 引数)
+EM_JS(void, drawRect, (int x, int y), {
+    // この中は JS
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
+
+    ctx.fillStyle = "blue";
+    ctx.fillRect(x, y, 50, 50);
+});
+
+int main () {
+    drawRect(100, 80);
+    drawRect(200, 120);
+    drawRect(300, 200);
+
     return 0;
 }
