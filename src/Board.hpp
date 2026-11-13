@@ -39,6 +39,7 @@ public:
 
     Tile getTile(GridPosition pos) const; // 読み取るだけで、変更しないので const
     void setTile(GridPosition pos, Tile tile);
+    bool isInsideGrid(GridPosition pos) const; // 指定座標が盤面内か
 
 private:
     // TileType を要素に持つ二次元配列のメンバ変数

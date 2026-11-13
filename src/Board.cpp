@@ -17,3 +17,8 @@ Tile Board::getTile(GridPosition pos) const {
 void Board::setTile(GridPosition pos, Tile tile) {
     tiles_.at(pos.y).at(pos.x) = tile;
 }
+
+bool Board::isInsideGrid(GridPosition pos) const {
+    return 0 <= pos.x && pos.x < BOARD_SIZE
+        && 0 <= pos.y && pos.y < BOARD_SIZE;
+}
