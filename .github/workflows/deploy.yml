@@ -40,7 +40,7 @@ jobs:
       - name: Build WebAssembly
         run: |
           mkdir -p _site/build
-          em++ src/main.cpp -o _site/build/main.js
+          em++ src/*.cpp -o _site/build/main.js
 
       # HTML を公開用ディレクトリにコピー
       - name: Prepare website
