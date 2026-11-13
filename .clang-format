@@ -1,0 +1,16 @@
+BasedOnStyle: LLVM
+
+IndentWidth: 4
+UseTab: Never
+
+# 波括弧は同じ行に置く
+BreakBeforeBraces: Attach
+
+# アクセス指定子もインデントする
+IndentAccessModifiers: true
+
+# namespace 内もインデントする
+NamespaceIndentation: All
+
+# 1行の最大文字数
+ColumnLimit: 100
