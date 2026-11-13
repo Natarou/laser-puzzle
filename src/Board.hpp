@@ -27,7 +27,7 @@ struct Tile {
 
 
 // 座標
-struct Point {
+struct GridPosition {
     int x;
     int y;
 };
@@ -37,8 +37,8 @@ class Board {
 public:
     Board();
 
-    Tile getTile(Point pos) const; // 読み取るだけで、変更しないので const
-    void setTile(Point pos, Tile tile);
+    Tile getTile(GridPosition pos) const; // 読み取るだけで、変更しないので const
+    void setTile(GridPosition pos, Tile tile);
 
 private:
     // TileType を要素に持つ二次元配列のメンバ変数

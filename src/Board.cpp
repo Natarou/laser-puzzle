@@ -1,20 +1,19 @@
-#include <Board.hpp>
+// 自分で作ったヘッダファイルは "" で囲む
+#include "Board.hpp"
 
 Board::Board() {
     for (auto& row : tiles_) {
-        Tile tile; // new とかしなくていいの？ c++ での構造体の書き方よくわかってない
-        tile.type = TileType::Empty; // 省略できる？
-        tile.orientation = MirrorOrientation::Slash; // 省略できる？
-        row.fill(tile); // fill って何？この関数定義した覚えないけど
+        // fill で全ての要素に同じ値を代入
+        row.fill(Tile{}); // {} 付けると初期化された構造体のオブジェクトが得られる
     }
 }
 
-Tile Board::getTile(Point pos) const {
+Tile Board::getTile(GridPosition pos) const {
     // at() は範囲外参照だと例外を投げる
     // TODO: 例外を投げられてもゲームが終わらないようにする
     return tiles_.at(pos.y).at(pos.x);
 }
 
-void Board::setTile(Point pos, Tile tile) {
+void Board::setTile(GridPosition pos, Tile tile) {
     tiles_.at(pos.y).at(pos.x) = tile;
 }
