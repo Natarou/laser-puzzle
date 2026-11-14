@@ -124,3 +124,8 @@ void Laser::reflect(MirrorOrientation orientation) {
     }
     state_.direction = nextStateD;
 }
+
+// 経路を返す
+const std::vector<GridPosition>& Laser::getPath() const {
+    return path_;
+}

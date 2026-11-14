@@ -29,6 +29,8 @@ class Laser {
 public:
     LaserResult trace(const Board &board);
     LaserResult step(const Board &board);
+    // 変更不可の参照渡しする
+    const std::vector<GridPosition>& getPath() const;
 
 private:
     // 光線の現在地
