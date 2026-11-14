@@ -6,8 +6,18 @@ EM_JS(void, jsShowStageNum, (int stageNum), {
     element.textContent = stageNum;
 });
 
+// 次ステージボタンの表示切り替え
+EM_JS(void, jsSetNextStageButtonVisible, (bool visible), {
+    const button = document.getElementById("next-stage-button");
+    button.hidden = !visible; // 隠すやつだから真偽値逆になる
+});
+
 namespace ui {
     void showStageNum(int stageNum) {
         jsShowStageNum(stageNum);
+    }
+
+    void setNextStageButtonVisible(bool visible) {
+        jsSetNextStageButtonVisible(visible);
     }
 }

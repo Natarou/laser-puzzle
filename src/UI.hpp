@@ -1,6 +1,6 @@
 #pragma once
 
 namespace ui {
-    // ステージ数表示
-    void showStageNum(int stageNum);
+    void showStageNum(int stageNum); // ステージ数表示
+    void setNextStageButtonVisible(bool visible);
 }

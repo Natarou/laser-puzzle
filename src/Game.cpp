@@ -25,6 +25,7 @@ void Game::render() const {
     render::drawLaser(laser_.getPath());
 
     // クリア描画
+    ui::setNextStageButtonVisible(cleared_);
     if (cleared_)
         render::drawClearEffect();
 }
@@ -48,6 +49,7 @@ void Game::reStart() {
 
 // 次のステージに行く
 void Game::gotoNextStage() {
+    if (!cleared_) return; // クリアしてないと次ステージ進めない
     currentStageIdx_ = (currentStageIdx_ + 1) % 3;
     reStart();
 }
@@ -76,6 +78,8 @@ void Game::loadStage(int stageIdx) {
         board_.setTile(GridPosition{2, 3}, Tile{TileType::Mirror, MirrorOrientation::BackSlash});
         board_.setTile(GridPosition{2, 4}, Tile{TileType::Mirror, MirrorOrientation::BackSlash});
         board_.setTile(GridPosition{0, 4}, Tile{TileType::Mirror, MirrorOrientation::BackSlash});
+        board_.setTile(GridPosition{0, 1}, Tile{TileType::Mirror});
+        board_.setTile(GridPosition{4, 1}, Tile{TileType::Mirror});
         board_.setTile(GridPosition{0, 5}, Tile{TileType::Goal});
         break;
     }
