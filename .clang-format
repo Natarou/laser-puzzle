@@ -7,7 +7,8 @@ UseTab: Never
 
 # namespace と public/private
 NamespaceIndentation: All
-IndentAccessModifiers: true
+IndentAccessModifiers: false
+AccessModifierOffset: -4
 
 # 波括弧は同じ行
 BreakBeforeBraces: Attach

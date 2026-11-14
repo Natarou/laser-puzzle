@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "GridPosition.hpp"
 #include "Renderer.hpp"
 
 void Game::initialize() {
@@ -15,5 +16,16 @@ void Game::render() const {
             Tile tile = board_.getTile(pos);
             render::drawTile(pos, tile.type);
         }
+    }
+
+    // 経路描画
+    render::drawLaser(laser_.getPath());
+}
+
+void Game::update() {
+    LaserResult result = laser_.trace(board_);
+
+    if (result == LaserResult::ReachedGoal) {
+        cleared_ = true;
     }
 }
