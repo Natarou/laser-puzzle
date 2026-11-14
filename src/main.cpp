@@ -1,8 +1,9 @@
 #include "Game.hpp"
 
-int main() {
-    Game game;
+// クリック後にも使えるように、main の外に置く
+Game game;
 
+int main() {
     game.initialize();
     game.update();
     game.render();
