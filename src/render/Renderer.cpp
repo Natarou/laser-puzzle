@@ -8,12 +8,22 @@ EM_JS(void, jsDrawTile, (int x, int y, int tileType, int orientation, int CELL_S
     const canvas = document.getElementById("game");
     const ctx = canvas.getContext("2d");
 
+    // 旧色
+    // const colors = [
+    //     "#eeeeee", // Empty
+    //     "#3498db", // Source
+    //     "#f1c40f", // Mirror
+    //     "#5c5c5c", // Wall
+    //     "#2ecc71", // Goal
+    // ];
+
+    // 新色
     const colors = [
-        "#eeeeee", // Empty
-        "#3498db", // Source
-        "#f1c40f", // Mirror
-        "#5c5c5c", // Wall
-        "#2ecc71", // Goal
+        "#17263A", // Empty
+        "#2563A6", // Source
+        "#E7B85C", // Mirror
+        "#35465C", // Wall
+        "#31C7A9"  // Goal
     ];
 
     const drawX = x * CELL_SIZE;
@@ -25,7 +35,8 @@ EM_JS(void, jsDrawTile, (int x, int y, int tileType, int orientation, int CELL_S
 
     // マスの境界線
     ctx.lineWidth = 1;
-    ctx.strokeStyle = "#aaaaaa";
+    // ctx.strokeStyle = "#aaaaaa"; // 旧色
+    ctx.strokeStyle = "#30465F"; // 新色
     ctx.strokeRect(drawX, drawY, CELL_SIZE, CELL_SIZE);
 
     // 鏡の描画
@@ -44,7 +55,8 @@ EM_JS(void, jsDrawTile, (int x, int y, int tileType, int orientation, int CELL_S
         mx2 = drawX + CELL_SIZE;
     }
 
-    ctx.strokeStyle = colors[1];
+    // ctx.strokeStyle = colors[1]; // 旧色
+    ctx.strokeStyle = "#F8E9B6"; // 新色
     ctx.lineWidth = 3;
 
     // 実際に描く
@@ -68,7 +80,8 @@ EM_JS(void, jsDrawLaser, (int startX, int startY, int destinationX, int destinat
 
     // 線のスタイル
     ctx.lineWidth = 5;
-    ctx.strokeStyle = "#eb4034";
+    // ctx.strokeStyle = "#eb4034"; // 旧色
+    ctx.strokeStyle = "#FF6475"; // 新色
 
     // 線を描画
     ctx.beginPath();
@@ -78,27 +91,72 @@ EM_JS(void, jsDrawLaser, (int startX, int startY, int destinationX, int destinat
 });
 
 // クリア演出描画
+// 旧
+// EM_JS(void, jsDrawClearEffect, (int CELL_SIZE), {
+//     const canvas = document.getElementById("game");
+//     const ctx = canvas.getContext("2d");
+
+//     // 座布団01
+//     const two_cell = CELL_SIZE * 2;
+//     ctx.fillStyle = "#ffffff8a";
+//     ctx.fillRect(0, two_cell, canvas.width, two_cell);
+
+//     // 座布団02
+//     ctx.fillStyle = "#f1c40fa0";
+//     ctx.fillRect(0, two_cell, canvas.width, two_cell);
+
+//     // 文字
+//     ctx.font = "bold 32px sans-serif";
+//     ctx.fillStyle = "#2ecc71";
+//     ctx.textAlign = "center";
+//     ctx.textBaseline = "middle";
+
+//     ctx.fillText("STAGE CLEAR!!", canvas.width / 2, canvas.height / 2);
+// });
+
+// クリア演出描画
+// 新色
 EM_JS(void, jsDrawClearEffect, (int CELL_SIZE), {
     const canvas = document.getElementById("game");
     const ctx = canvas.getContext("2d");
 
-    // 座布団01
-    const two_cell = CELL_SIZE * 2;
-    ctx.fillStyle = "#ffffff8a";
-    ctx.fillRect(0, two_cell, canvas.width, two_cell);
+    const panelY = CELL_SIZE * 2;
+    const panelHeight = CELL_SIZE * 2;
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
 
-    // 座布団02
-    ctx.fillStyle = "#f1c40fa0";
-    ctx.fillRect(0, two_cell, canvas.width, two_cell);
+    ctx.save();
 
-    // 文字
-    ctx.font = "bold 32px sans-serif";
-    ctx.fillStyle = "#2ecc71";
+    // ① 半透明のダークパネル
+    ctx.fillStyle = "rgba(11, 23, 40, 0.6)";
+    ctx.fillRect(0, panelY, canvas.width, panelHeight);
+
+    // ② 上下のシアンライン
+    ctx.fillStyle = "#60E3D2";
+    ctx.fillRect(0, panelY, canvas.width, 2);
+    ctx.fillRect(0, panelY + panelHeight - 2, canvas.width, 2);
+
+    // ③ 発光するクリア文字
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+    ctx.font = "bold 28px sans-serif";
 
-    ctx.fillText("STAGE CLEAR!!", canvas.width / 2, canvas.height / 2);
+    ctx.shadowColor = "#60E3D2";
+    ctx.shadowBlur = 12;
+    ctx.fillStyle = "#60E3D2";
+
+    ctx.fillText("STAGE CLEAR!!", centerX, centerY - 9);
+
+    // ④ サブテキスト
+    ctx.shadowBlur = 0;
+    ctx.font = "10px sans-serif";
+    ctx.fillStyle = "#93A6BF";
+
+    ctx.fillText("TARGET REACHED", centerX, centerY + 24);
+
+    ctx.restore();
 });
+
 
 namespace render {
 

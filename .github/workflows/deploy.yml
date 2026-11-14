@@ -47,6 +47,7 @@ jobs:
         run: |
           cp web/index.html _site/index.html
           cp web/input.js _site/input.js
+          cp web/style.css _site/style.css
 
       # GitHub Pages の準備
       - name: Setup Pages
