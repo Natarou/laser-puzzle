@@ -74,4 +74,10 @@ namespace render {
         }
     }
 
+    GridPosition convertPixelToGridPos(int pixelX, int pixelY) {
+        int gridX = pixelX / CELL_SIZE;
+        int gridY = pixelY / CELL_SIZE;
+        return GridPosition{gridX, gridY};
+    }
+
 } // namespace render

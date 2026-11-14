@@ -9,4 +9,5 @@ namespace render {
 
     void drawTile(GridPosition pos, TileType type);
     void drawLaser(const std::vector<GridPosition> &path);
+    GridPosition convertPixelToGridPos(int pixelX, int pixelY);
 } // namespace render
