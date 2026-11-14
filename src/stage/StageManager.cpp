@@ -29,8 +29,8 @@ StageManager::StageManager()
                 {{2, 4}, {TileType::Mirror, MirrorOrientation::BackSlash}},
                 {{0, 4}, {TileType::Mirror, MirrorOrientation::BackSlash}},
                 {{0, 1}, {TileType::Mirror}},
-                {{4, 1}, {TileType::Wall}},
-                {{4, 2}, {TileType::Mirror}},
+                {{4, 1}, {TileType::Mirror}},
+                {{4, 2}, {TileType::Wall}},
                 {{0, 5}, {TileType::Goal}},
             }
         },
