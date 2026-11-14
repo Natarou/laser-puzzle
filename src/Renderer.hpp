@@ -5,8 +5,9 @@
 #include <vector>
 
 namespace render {
-    const int CELL_SIZE = 50;
+    constexpr int CELL_SIZE = 50; // コンパイル時に値を評価できるため constexpr
 
-    void drawTile(GridPosition pos, TileType type);
+    void drawTile(GridPosition pos, Tile tile);
     void drawLaser(const std::vector<GridPosition> &path);
+    GridPosition convertPixelToGridPos(int pixelX, int pixelY);
 } // namespace render

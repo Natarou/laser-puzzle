@@ -8,6 +8,7 @@ public:
     void initialize();
     void render() const;
     void update();
+    void handleClick(int pixelX, int pixelY);
 
 private:
     Board board_;
