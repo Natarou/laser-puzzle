@@ -1,15 +1,18 @@
 #include "Game.hpp"
 #include "GridPosition.hpp"
 #include "Renderer.hpp"
+#include "UI.hpp"
 
 void Game::initialize() {
-    board_.setTile(GridPosition{0, 0}, Tile{TileType::Source});
-    board_.setTile(GridPosition{3, 0}, Tile{TileType::Mirror});
-    board_.setTile(GridPosition{3, 5}, Tile{TileType::Goal});
+    loadStage(0);
 }
 
 // TODO: Renderer クラスができたらまた変わる
 void Game::render() const {
+    // ステージ番号描画
+    ui::showStageNum(currentStageIdx_ + 1);
+
+    // 盤面描画
     for (int y = 0; y < Board::SIZE; y++) {
         for (int x = 0; x < Board::SIZE; x++) {
             GridPosition pos = GridPosition{x, y};
@@ -22,6 +25,7 @@ void Game::render() const {
     render::drawLaser(laser_.getPath());
 
     // クリア描画
+    ui::setNextStageButtonVisible(cleared_);
     if (cleared_)
         render::drawClearEffect();
 }
@@ -30,8 +34,52 @@ void Game::update() {
     cleared_ = false;                          // クリア状態更新
     LaserResult result = laser_.trace(board_); // 光路計算
 
-    if (result == LaserResult::ReachedGoal) {
-        cleared_ = true;
+    cleared_ = (result == LaserResult::ReachedGoal);
+}
+
+// リスタート、ステージを初期状態に戻して描画
+void Game::reStart() {
+    cleared_ = false;
+    loadStage(currentStageIdx_);
+    update();
+    render();
+}
+
+// 次のステージに行く
+void Game::gotoNextStage() {
+    if (!cleared_) return; // クリアしてないと次ステージ進めない
+    currentStageIdx_ = (currentStageIdx_ + 1) % 3;
+    reStart();
+}
+
+// ステージを読み込む
+void Game::loadStage(int stageIdx) {
+    board_ = Board{};
+    // TODO: ゆくゆく Stage としてどこかにまとめたり、編集しやすくしたい
+    switch (stageIdx) {
+    case 0:
+    default:
+        board_.setTile(GridPosition{0, 0}, Tile{TileType::Source});
+        board_.setTile(GridPosition{3, 0}, Tile{TileType::Mirror});
+        board_.setTile(GridPosition{3, 5}, Tile{TileType::Goal});
+        break;
+    case 1:
+        board_.setTile(GridPosition{0, 0}, Tile{TileType::Source});
+        board_.setTile(GridPosition{5, 0}, Tile{TileType::Mirror});
+        board_.setTile(GridPosition{5, 5}, Tile{TileType::Mirror, MirrorOrientation::BackSlash});
+        board_.setTile(GridPosition{0, 5}, Tile{TileType::Goal});
+        break;
+    case 2:
+        board_.setTile(GridPosition{0, 0}, Tile{TileType::Source});
+        board_.setTile(GridPosition{5, 0}, Tile{TileType::Mirror});
+        board_.setTile(GridPosition{5, 3}, Tile{TileType::Mirror, MirrorOrientation::BackSlash});
+        board_.setTile(GridPosition{2, 3}, Tile{TileType::Mirror, MirrorOrientation::BackSlash});
+        board_.setTile(GridPosition{2, 4}, Tile{TileType::Mirror, MirrorOrientation::BackSlash});
+        board_.setTile(GridPosition{0, 4}, Tile{TileType::Mirror, MirrorOrientation::BackSlash});
+        board_.setTile(GridPosition{0, 1}, Tile{TileType::Mirror});
+        board_.setTile(GridPosition{4, 1}, Tile{TileType::Mirror});
+        board_.setTile(GridPosition{0, 5}, Tile{TileType::Goal});
+        break;
     }
 }
 
