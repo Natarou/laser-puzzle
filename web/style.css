@@ -1,0 +1,253 @@
+/* ========================================
+   LASER / PUZZLE — UI THEME
+   JavaScriptから操作するIDは変更しない
+   ======================================== */
+
+/* 1. 色・サイズをまとめて管理 */
+:root {
+  --bg: #090f1e;
+  --panel: #121c30;
+  --panel-top: #17243a;
+  --line: rgba(148, 177, 213, 0.20);
+  --text: #f0f6ff;
+  --muted: #93a6bf;
+  --accent: #5fe4db;
+  --laser: #ff6b67;
+  --gold: #ffd17a;
+  --radius: 22px;
+}
+
+/* 2. ブラウザ標準の余白や幅計算を整理 */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { min-height: 100%; }
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+  background:
+    radial-gradient(ellipse at 18% 5%, rgba(30, 97, 130, 0.30), transparent 42%),
+    radial-gradient(ellipse at 95% 88%, rgba(25, 75, 100, 0.22), transparent 35%),
+    var(--bg);
+}
+
+/* 背景のうっすらした方眼。ゲームの入力操作には干渉しない */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.28;
+  background-image:
+    linear-gradient(rgba(138, 179, 212, .08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(138, 179, 212, .08) 1px, transparent 1px);
+  background-size: 46px 46px;
+}
+
+/* 3. ページ全体のレイアウト */
+.app-shell {
+  position: relative;
+  width: min(100% - 36px, 760px);
+  margin: 0 auto;
+  padding: 54px 0 26px;
+}
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.brand-mark {
+  display: grid;
+  place-items: center;
+  flex: 0 0 54px;
+  height: 54px;
+  border: 1px solid rgba(95, 228, 219, .35);
+  border-radius: 15px;
+  color: var(--accent);
+  background: rgba(95, 228, 219, .08);
+  font-size: 30px;
+  text-shadow: 0 0 20px rgba(95, 228, 219, .35);
+}
+.brand-copy { min-width: 0; }
+.eyebrow {
+  margin: 0 0 7px;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(25px, 5vw, 39px);
+  font-weight: 850;
+  letter-spacing: .075em;
+  line-height: 1.12;
+}
+.title-slash { color: var(--accent); padding: 0 .06em; }
+.subtitle { margin: 8px 0 0; font-size: 12px; color: var(--muted); }
+.status-indicator {
+  margin-left: auto;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+}
+
+/* 4. ゲームを囲むパネル */
+.game-panel {
+  padding: clamp(18px, 4vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(155deg, rgba(26, 42, 65, .97), rgba(13, 23, 40, .97));
+  box-shadow: 0 20px 70px rgba(0, 0, 0, .40), inset 0 1px rgba(255,255,255,.05);
+}
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.stage-label {
+  margin: 0;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: .09em;
+}
+#stage-num { color: var(--gold); font-variant-numeric: tabular-nums; }
+.mission-tag {
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 209, 122, .22);
+  border-radius: 7px;
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  white-space: nowrap;
+}
+
+/* 5. 既存の300x300 Canvasを比率維持で拡大縮小 */
+.canvas-frame {
+  position: relative;
+  width: min(100%, 420px);
+  margin-inline: auto;
+  padding: 8px;
+  border: 1px solid rgba(95, 228, 219, .36);
+  border-radius: 13px;
+  background: #09121e;
+  box-shadow: 0 0 0 5px rgba(95,228,219,.035), 0 12px 35px rgba(0,0,0,.28);
+}
+#game {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 5px;
+  cursor: crosshair;
+  touch-action: manipulation;
+}
+.corner { position: absolute; width: 15px; height: 15px; pointer-events: none; }
+.corner-tl { top: -2px; left: -2px; border-top: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+.corner-tr { top: -2px; right: -2px; border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+.corner-bl { bottom: -2px; left: -2px; border-bottom: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+.corner-br { bottom: -2px; right: -2px; border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+
+.game-hint {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  margin: 19px 0 24px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+  text-align: center;
+}
+.hint-icon { color: var(--accent); font-size: 17px; line-height: 1.35; }
+
+/* 6. ボタンとマウス操作 */
+.controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 168px;
+  min-height: 48px;
+  padding: 12px 20px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .11em;
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.button-secondary {
+  color: var(--text);
+  background: #22334d;
+  border-color: rgba(160, 188, 225, .22);
+}
+.button-primary {
+  color: #071a21;
+  background: var(--accent);
+  box-shadow: 0 6px 22px rgba(95, 228, 219, .17);
+}
+.button:hover { transform: translateY(-2px); }
+.button-secondary:hover { background: #2b4260; border-color: rgba(160,188,225,.50); }
+.button-primary:hover { background: #8af5eb; box-shadow: 0 8px 28px rgba(95,228,219,.30); }
+.button:active { transform: translateY(0); }
+.button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+/* JSが切り替えるhidden属性をCSSが上書きしないようにする */
+[hidden] { display: none !important; }
+
+/* 7. フッター */
+.app-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 22px 6px 0;
+  color: #71849e;
+  font-size: 10px;
+  letter-spacing: .10em;
+}
+
+/* 8. スマホで窮屈にならないよう調整 */
+@media (max-width: 560px) {
+  .app-shell { width: min(100% - 24px, 760px); padding-top: 25px; }
+  .app-header { flex-wrap: wrap; gap: 12px; }
+  .brand-mark { flex-basis: 43px; height: 43px; font-size: 24px; }
+  .status-indicator { width: 100%; margin-left: 0; }
+  .panel-heading { align-items: flex-end; }
+  .stage-label { font-size: 23px; }
+  .mission-tag { font-size: 9px; padding: 7px; }
+  .game-hint { font-size: 11px; }
+  .button { flex: 1 1 140px; min-width: 0; }
+}
+
+/* 動きを減らす設定を尊重 */
+@media (prefers-reduced-motion: reduce) {
+  .button { transition: none; }
+}
