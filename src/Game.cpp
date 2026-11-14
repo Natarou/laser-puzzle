@@ -20,10 +20,14 @@ void Game::render() const {
 
     // 経路描画
     render::drawLaser(laser_.getPath());
+
+    // クリア描画
+    if (cleared_)
+        render::drawClearEffect();
 }
 
 void Game::update() {
-    cleared_ = false; // クリア状態更新
+    cleared_ = false;                          // クリア状態更新
     LaserResult result = laser_.trace(board_); // 光路計算
 
     if (result == LaserResult::ReachedGoal) {
