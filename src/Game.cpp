@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include "GridPosition.hpp"
+#include "Laser.hpp"
 #include "Renderer.hpp"
 
 void Game::initialize() {
@@ -17,4 +18,7 @@ void Game::render() const {
             render::drawTile(pos, tile.type);
         }
     }
+
+    Laser laser;
+    LaserResult result = laser.trace(board_);
 }

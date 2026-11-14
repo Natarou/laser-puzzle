@@ -7,9 +7,15 @@
 // 光線の進行方向
 enum class Direction {
     Up,
-    Right,
-    Down,
     Left,
+    Down,
+    Right,
+};
+
+enum class LaserResult {
+    Movable, // 進行可能
+    ReachedGoal, // ゴール到着
+    OutOfGrid, // 盤面外に出た
 };
 
 // 光線の状態
@@ -20,7 +26,8 @@ struct LaserState {
 
 class Laser {
 public:
-    void trace(const Board &board);
+    LaserResult trace(const Board &board);
+    LaserResult step(const Board &board);
 
 private:
     // 光線の現在地
