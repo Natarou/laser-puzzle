@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include "GridPosition.hpp"
 
 // タイルの種類
 enum class TileType {
@@ -20,12 +21,6 @@ enum class MirrorOrientation {
 struct Tile {
     TileType type = TileType::Empty;
     MirrorOrientation orientation = MirrorOrientation::Slash;
-};
-
-// 座標
-struct GridPosition {
-    int x;
-    int y;
 };
 
 // 盤面
