@@ -12,6 +12,7 @@ EM_JS(void, jsDrawTile, (int x, int y, int tileType, int orientation, int CELL_S
         "#eeeeee", // Empty
         "#3498db", // Source
         "#f1c40f", // Mirror
+        "#5c5c5c", // Wall
         "#2ecc71", // Goal
     ];
 

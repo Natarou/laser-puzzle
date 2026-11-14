@@ -21,7 +21,8 @@ LaserResult Laser::trace(const Board &board) {
         currentLaserResult = step(board);
 
         // currentLaserResult を不必要に書き換えないよう止める
-        if (currentLaserResult != LaserResult::Movable) break;
+        if (currentLaserResult != LaserResult::Movable)
+            break;
 
         // 無限ループ対策
         int currentY = state_.position.y;
@@ -29,8 +30,7 @@ LaserResult Laser::trace(const Board &board) {
         int currentD = static_cast<int>(state_.direction);
 
         // ループしてた場合
-        if (visited[currentY][currentX][currentD])
-        {
+        if (visited[currentY][currentX][currentD]) {
             currentLaserResult = LaserResult::LoopDetected;
             break;
         }
@@ -48,15 +48,18 @@ LaserResult Laser::step(const Board &board) {
     if (!board.isInsideGrid(nextPos))
         return LaserResult::OutOfGrid; // 範囲外ならここで終わり
 
+    // 進んだ先のタイルを取得
+    Tile tile = board.getTile(nextPos);
+    TileType type = tile.type;
+
+    if (type == TileType::Wall)
+        return LaserResult::HitWall;
+
     // 次の座標に移動
     state_.position = nextPos;
 
     // 座標記録
     path_.push_back(state_.position);
-
-    // 進んだ先のタイルを取得
-    Tile tile = board.getTile(nextPos);
-    TileType type = tile.type;
 
     // 進んだ先のタイルの種類によって状態変わる
     if (type == TileType::Mirror) // 鏡
@@ -126,6 +129,6 @@ void Laser::reflect(MirrorOrientation orientation) {
 }
 
 // 経路を返す
-const std::vector<GridPosition>& Laser::getPath() const {
+const std::vector<GridPosition> &Laser::getPath() const {
     return path_;
 }

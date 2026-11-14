@@ -78,6 +78,7 @@ void Game::loadStage(int stageIdx) {
         board_.setTile(GridPosition{0, 4}, Tile{TileType::Mirror, MirrorOrientation::BackSlash});
         board_.setTile(GridPosition{0, 1}, Tile{TileType::Mirror});
         board_.setTile(GridPosition{4, 1}, Tile{TileType::Mirror});
+        board_.setTile(GridPosition{4, 2}, Tile{TileType::Wall});
         board_.setTile(GridPosition{0, 5}, Tile{TileType::Goal});
         break;
     }
