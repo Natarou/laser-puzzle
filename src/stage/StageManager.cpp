@@ -29,7 +29,7 @@ StageManager::StageManager()
                 {{2, 4}, {TileType::Mirror, MirrorOrientation::BackSlash}},
                 {{0, 4}, {TileType::Mirror, MirrorOrientation::BackSlash}},
                 {{0, 1}, {TileType::Mirror}},
-                {{4, 1}, {TileType::Mirror}},
+                {{4, 1}, {TileType::Wall}},
                 {{4, 2}, {TileType::Mirror}},
                 {{0, 5}, {TileType::Goal}},
             }
@@ -66,15 +66,14 @@ StageManager::StageManager()
 
 // ステージの取得
 // 見つからなかった時に nullptr を返すためポインタを返すようにしてる
-const Stage* StageManager::findStage(StageId stageId) const {
+const Stage *StageManager::findStage(StageId stageId) const {
     // C++ は存在しないキーを指定すると、新しい要素が自動的に追加されるので、より安全に取得する
     // イテレータ取得
     auto it = stages_.find(stageId);
 
     // イテレータが末尾の無を指し示してたら無
     // キーが存在しなかったら
-    if (it == stages_.end())
-    {
+    if (it == stages_.end()) {
         return nullptr; // ぬるぽ
     }
 
@@ -86,9 +85,22 @@ const Stage* StageManager::findStage(StageId stageId) const {
 StageId StageManager::getNextStageId(StageId currentStageId) const {
     // size() の戻り値が size_t なので仕方なく size_t を使用している
     for (std::size_t i = 0; i < stageOrder_.size(); i++) {
-        std::size_t nextIdx = (i + 1) % stageOrder_.size();
-        return stageOrder_[nextIdx];
+        if (stageOrder_[i] == currentStageId) {
+            std::size_t nextIdx = (i + 1) % stageOrder_.size();
+            return stageOrder_[nextIdx];
+        }
     }
 
     return stageOrder_.front();
+}
+
+// 現在のステージが何番か取得する
+int StageManager::getStageNumber(StageId stageId) const {
+    for (std::size_t i = 0; i < stageOrder_.size(); i++) {
+        if (stageOrder_[i] == stageId)
+        {
+            return static_cast<int>(i);
+        }
+    }
+    return 0;
 }

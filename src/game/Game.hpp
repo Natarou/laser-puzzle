@@ -2,6 +2,7 @@
 
 #include "../core/Board.hpp"
 #include "../logic/Laser.hpp"
+#include "../stage/StageManager.hpp"
 
 class Game {
 public:
@@ -10,12 +11,14 @@ public:
     void update();
     void reStart();
     void gotoNextStage();
-    void loadStage(int stageIdx);
+    void loadStage(StageId stageId);
     void handleClick(int pixelX, int pixelY);
 
 private:
-    Board board_;
+    StageManager stageManager_;
+    StageId currentStageId_ = StageId::Tutorial;
+
+    Board board_; // プレイ中の盤面
     Laser laser_;
     bool cleared_ = false;
-    int currentStageIdx_ = 0;
 };
