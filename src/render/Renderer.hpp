@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Board.hpp"
-#include "GridPosition.hpp"
+#include "../core/Board.hpp"
+#include "../core/GridPosition.hpp"
 #include <vector>
 
 namespace render {

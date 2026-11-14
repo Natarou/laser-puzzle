@@ -1,4 +1,4 @@
-#include "Game.hpp"
+#include "game/Game.hpp"
 #include <emscripten/emscripten.h>
 
 // クリック後にも使えるように、main の外に置く

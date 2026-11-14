@@ -1,16 +1,16 @@
 #include "Game.hpp"
-#include "GridPosition.hpp"
-#include "Renderer.hpp"
-#include "UI.hpp"
+#include "../core/GridPosition.hpp"
+#include "../render/Renderer.hpp"
+#include "../render/UI.hpp"
 
 void Game::initialize() {
-    loadStage(0);
+    loadStage(StageId::Tutorial);
 }
 
 // TODO: Renderer クラスができたらまた変わる
 void Game::render() const {
     // ステージ番号描画
-    ui::showStageNum(currentStageIdx_ + 1);
+    ui::showStageNum(stageManager_.getStageNumber(currentStageId_) + 1);
 
     // 盤面描画
     for (int y = 0; y < Board::SIZE; y++) {
@@ -40,7 +40,7 @@ void Game::update() {
 // リスタート、ステージを初期状態に戻して描画
 void Game::reStart() {
     cleared_ = false;
-    loadStage(currentStageIdx_);
+    loadStage(currentStageId_);
     update();
     render();
 }
@@ -48,40 +48,23 @@ void Game::reStart() {
 // 次のステージに行く
 void Game::gotoNextStage() {
     if (!cleared_) return; // クリアしてないと次ステージ進めない
-    currentStageIdx_ = (currentStageIdx_ + 1) % 3;
+    currentStageId_ = stageManager_.getNextStageId(currentStageId_);
     reStart();
 }
 
 // ステージを読み込む
-void Game::loadStage(int stageIdx) {
-    board_ = Board{};
-    // TODO: ゆくゆく Stage としてどこかにまとめたり、編集しやすくしたい
-    switch (stageIdx) {
-    case 0:
-    default:
-        board_.setTile(GridPosition{0, 0}, Tile{TileType::Source});
-        board_.setTile(GridPosition{3, 0}, Tile{TileType::Mirror});
-        board_.setTile(GridPosition{3, 5}, Tile{TileType::Goal});
-        break;
-    case 1:
-        board_.setTile(GridPosition{0, 0}, Tile{TileType::Source});
-        board_.setTile(GridPosition{5, 0}, Tile{TileType::Mirror});
-        board_.setTile(GridPosition{5, 5}, Tile{TileType::Mirror, MirrorOrientation::BackSlash});
-        board_.setTile(GridPosition{0, 5}, Tile{TileType::Goal});
-        break;
-    case 2:
-        board_.setTile(GridPosition{0, 0}, Tile{TileType::Source});
-        board_.setTile(GridPosition{5, 0}, Tile{TileType::Mirror});
-        board_.setTile(GridPosition{5, 3}, Tile{TileType::Mirror, MirrorOrientation::BackSlash});
-        board_.setTile(GridPosition{2, 3}, Tile{TileType::Mirror, MirrorOrientation::BackSlash});
-        board_.setTile(GridPosition{2, 4}, Tile{TileType::Mirror, MirrorOrientation::BackSlash});
-        board_.setTile(GridPosition{0, 4}, Tile{TileType::Mirror, MirrorOrientation::BackSlash});
-        board_.setTile(GridPosition{0, 1}, Tile{TileType::Mirror});
-        board_.setTile(GridPosition{4, 1}, Tile{TileType::Mirror});
-        board_.setTile(GridPosition{4, 2}, Tile{TileType::Wall});
-        board_.setTile(GridPosition{0, 5}, Tile{TileType::Goal});
-        break;
+void Game::loadStage(StageId stageId) {
+    const Stage* stage = stageManager_.findStage(stageId);
+
+    // 存在しない / 不正なステージ
+    if (stage == nullptr || !stage->isValid()) {
+        return;
     }
+
+    currentStageId_ = stageId;
+
+    // 初期配置をコピー
+    board_ = stage->getInitialBoard();
 }
 
 // クリックされた時
