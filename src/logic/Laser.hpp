@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Board.hpp"
-#include "GridPosition.hpp"
+#include "../core/Board.hpp"
+#include "../core/GridPosition.hpp"
 #include <vector>
 
 // 光線の進行方向
@@ -17,6 +17,7 @@ enum class LaserResult {
     ReachedGoal,  // ゴール到着
     OutOfGrid,    // 盤面外に出た
     LoopDetected, // ループ
+    HitWall,      // 壁に当たった
 };
 
 // 光線の状態
@@ -30,7 +31,7 @@ public:
     LaserResult trace(const Board &board);
     LaserResult step(const Board &board);
     // 変更不可の参照渡しする
-    const std::vector<GridPosition>& getPath() const;
+    const std::vector<GridPosition> &getPath() const;
 
 private:
     // 光線の現在地

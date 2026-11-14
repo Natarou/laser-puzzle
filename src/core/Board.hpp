@@ -8,6 +8,7 @@ enum class TileType {
     Empty,  // 何もない
     Source, // 光源
     Mirror, // 鏡
+    Wall, // 壁
     Goal,   // ゴール
 };
 
