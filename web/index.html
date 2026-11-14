@@ -1,32 +1,59 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <title>Laser Puzzle</title>
-  </head>
-  <body>
-    <h1>Laser Puzzle</h1>
-    <p>STAGE <span id="stage-num">0</span></p>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090f1e">
+  <title>LASER / PUZZLE</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="app-header">
+      <div class="brand-mark" aria-hidden="true">✳</div>
+      <div class="brand-copy">
+        <p class="eyebrow">OPTICAL LOGIC SYSTEM / 001</p>
+        <h1>LASER<span class="title-slash">/</span>PUZZLE</h1>
+        <!-- <p class="subtitle">光線</p> -->
+      </div>
+      <!-- <span class="status-indicator"><span class="status-dot"></span>SYSTEM ONLINE</span> -->
+    </header>
 
-    <canvas
-      id="game"
-      width="300"
-      height="300"
-      style="border: 2px solid #aaaaaa;"
-    ></canvas>
+    <section class="game-panel" aria-label="レーザーパズル">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">CURRENT MISSION</p>
+          <p class="stage-label">STAGE <span id="stage-num">1</span></p>
+        </div>
+        <div class="mission-tag">BEAM CONTROL</div>
+      </div>
 
-    <br>
-    <button id="restart-button">RESTART</button>
-    <button id="next-stage-button" hidden>NEXT STAGE</button>
+      <div class="canvas-frame">
+        <canvas id="game" width="300" height="300" aria-label="レーザーパズルの盤面"></canvas>
+        <span class="corner corner-tl" aria-hidden="true"></span>
+        <span class="corner corner-tr" aria-hidden="true"></span>
+        <span class="corner corner-bl" aria-hidden="true"></span>
+        <span class="corner corner-br" aria-hidden="true"></span>
+      </div>
 
-    <!-- Canvas が作られてから JS を読み込む -->
-    <script>
-      var Module = {
-        // main() が終了しても実行環境を維持する
-        noExitRuntime: true
-      };
-    </script>
-    <script src="input.js"></script>
-    <script src="build/main.js"></script>
-  </body>
+      <p class="game-hint"><span class="hint-icon" aria-hidden="true">◎</span>黄色いミラーをクリックして、レーザーをゴールまで導こう。</p>
+
+      <div class="controls">
+        <button id="restart-button" class="button button-secondary" type="button">↺ <span>RESTART</span></button>
+        <button id="next-stage-button" class="button button-primary" type="button" hidden><span>NEXT STAGE</span><span aria-hidden="true">→</span></button>
+      </div>
+    </section>
+
+    <footer class="app-footer"><span>LASER / PUZZLE</span><span>BUILT WITH C++ + WEBASSEMBLY</span></footer>
+  </main>
+
+  <!-- 既存のEmscripten・入力処理の接続は変更しない -->
+  <script>
+    var Module = {
+      noExitRuntime: true
+    };
+  </script>
+  <script src="input.js"></script>
+  <script src="build/main.js"></script>
+</body>
 </html>
