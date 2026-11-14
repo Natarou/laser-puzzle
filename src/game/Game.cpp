@@ -1,7 +1,7 @@
 #include "Game.hpp"
-#include "GridPosition.hpp"
-#include "Renderer.hpp"
-#include "UI.hpp"
+#include "../core/GridPosition.hpp"
+#include "../render/Renderer.hpp"
+#include "../render/UI.hpp"
 
 void Game::initialize() {
     loadStage(0);

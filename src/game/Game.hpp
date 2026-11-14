@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Board.hpp"
-#include "Laser.hpp"
+#include "../core/Board.hpp"
+#include "../logic/Laser.hpp"
 
 class Game {
 public:
