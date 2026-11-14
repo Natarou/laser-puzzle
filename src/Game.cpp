@@ -34,9 +34,7 @@ void Game::update() {
     cleared_ = false;                          // クリア状態更新
     LaserResult result = laser_.trace(board_); // 光路計算
 
-    if (result == LaserResult::ReachedGoal) {
-        cleared_ = true;
-    }
+    cleared_ = (result == LaserResult::ReachedGoal);
 }
 
 // リスタート、ステージを初期状態に戻して描画
