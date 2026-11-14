@@ -2,14 +2,40 @@
 
 // 経路をまとめて計算
 LaserResult Laser::trace(const Board &board) {
+    // 光源の位置へ戻す
+    // TODO: 光源のクラスを作ったらそこから座標を取るようにする
+    state_ = LaserState{GridPosition{0, 0}, Direction::Right};
+
+    // 状態記録
+    // visited[y][x][direction]
+    bool visited[Board::SIZE][Board::SIZE][4] = {};
+    visited[state_.position.y][state_.position.x][static_cast<int>(state_.direction)] = true;
+
+    // 座標記録
     path_.clear();
     path_.push_back(state_.position); // スタート地点を記録
     LaserResult currentLaserResult = LaserResult::Movable;
 
-    // 動ける限り進む
-    while (currentLaserResult == LaserResult::Movable)
-    {
+    // 動ける && 状態が被らない限り進む
+    while (currentLaserResult == LaserResult::Movable) {
         currentLaserResult = step(board);
+
+        // currentLaserResult を不必要に書き換えないよう止める
+        if (currentLaserResult != LaserResult::Movable) break;
+
+        // 無限ループ対策
+        int currentY = state_.position.y;
+        int currentX = state_.position.x;
+        int currentD = static_cast<int>(state_.direction);
+
+        // ループしてた場合
+        if (visited[currentY][currentX][currentD])
+        {
+            currentLaserResult = LaserResult::LoopDetected;
+            break;
+        }
+
+        visited[currentY][currentX][currentD] = true;
     }
 
     return currentLaserResult;
@@ -24,7 +50,8 @@ LaserResult Laser::step(const Board &board) {
 
     // 次の座標に移動
     state_.position = nextPos;
-    // 座標を記録
+
+    // 座標記録
     path_.push_back(state_.position);
 
     // 進んだ先のタイルを取得
@@ -34,7 +61,7 @@ LaserResult Laser::step(const Board &board) {
     // 進んだ先のタイルの種類によって状態変わる
     if (type == TileType::Mirror) // 鏡
     {
-        reflect(tile.orientation); // 進行方向を変える
+        reflect(tile.orientation);     // 進行方向を変える
     } else if (type == TileType::Goal) // ゴール
     {
         // ゴールしたらここで終わり

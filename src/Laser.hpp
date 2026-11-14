@@ -13,9 +13,10 @@ enum class Direction {
 };
 
 enum class LaserResult {
-    Movable, // 進行可能
-    ReachedGoal, // ゴール到着
-    OutOfGrid, // 盤面外に出た
+    Movable,      // 進行可能
+    ReachedGoal,  // ゴール到着
+    OutOfGrid,    // 盤面外に出た
+    LoopDetected, // ループ
 };
 
 // 光線の状態
