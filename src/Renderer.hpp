@@ -9,5 +9,6 @@ namespace render {
 
     void drawTile(GridPosition pos, Tile tile);
     void drawLaser(const std::vector<GridPosition> &path);
+    void drawClearEffect(); // クリア時の文字とか
     GridPosition convertPixelToGridPos(int pixelX, int pixelY);
 } // namespace render

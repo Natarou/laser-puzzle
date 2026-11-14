@@ -15,7 +15,6 @@ EM_JS(void, jsDrawTile, (int x, int y, int tileType, int orientation, int CELL_S
         "#2ecc71", // Goal
     ];
 
-
     const drawX = x * CELL_SIZE;
     const drawY = y * CELL_SIZE;
 
@@ -77,6 +76,29 @@ EM_JS(void, jsDrawLaser, (int startX, int startY, int destinationX, int destinat
     ctx.stroke();
 });
 
+// クリア演出描画
+EM_JS(void, jsDrawClearEffect, (int CELL_SIZE), {
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
+
+    // 座布団01
+    const two_cell = CELL_SIZE * 2;
+    ctx.fillStyle = "#ffffff8a";
+    ctx.fillRect(0, two_cell, canvas.width, two_cell);
+
+    // 座布団02
+    ctx.fillStyle = "#f1c40fa0";
+    ctx.fillRect(0, two_cell, canvas.width, two_cell);
+
+    // 文字
+    ctx.font = "bold 32px sans-serif";
+    ctx.fillStyle = "#2ecc71";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillText("STAGE CLEAR!!", canvas.width / 2, canvas.height / 2);
+});
+
 namespace render {
 
     // タイル（マス）を描画
@@ -101,6 +123,11 @@ namespace render {
             jsDrawLaser(currentPos.x, currentPos.y, val.x, val.y, CELL_SIZE);
             currentPos = val;
         }
+    }
+
+    // クリア時演出
+    void drawClearEffect() {
+        jsDrawClearEffect(CELL_SIZE);
     }
 
     // JS から受け取ったピクセル座標を GridPosition に変換
