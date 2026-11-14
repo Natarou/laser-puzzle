@@ -1,5 +1,6 @@
 const canvas = document.getElementById("game");
 
+// 鏡をクリックして回す
 canvas.addEventListener("click", (event) => {
     // canvas がどこに表示されていて、どんな大きさなのか取得
     // rect.left : 画面左端から canvas 左端までの距離
@@ -14,4 +15,14 @@ canvas.addEventListener("click", (event) => {
 
     // ピクセル座標をそのまま C++ に渡す
     Module._handleClick(x, y);
+});
+
+// リスタートボタン
+document.getElementById("restart-button").addEventListener("click", () => {
+    Module._restartGame();
+});
+
+// 次のステージへ進む
+document.getElementById("next-stage-button").addEventListener("click", () => {
+    Module._gotoNextStage();
 });

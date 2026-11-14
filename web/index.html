@@ -6,6 +6,7 @@
   </head>
   <body>
     <h1>Laser Puzzle</h1>
+    <p>STAGE <span id="stage-num">0</span></p>
 
     <canvas
       id="game"
@@ -13,6 +14,10 @@
       height="300"
       style="border: 2px solid #aaaaaa;"
     ></canvas>
+
+    <br>
+    <button id="restart-button">RESTART</button>
+    <button id="next-stage-button" hidden>NEXT STAGE</button>
 
     <!-- Canvas が作られてから JS を読み込む -->
     <script>

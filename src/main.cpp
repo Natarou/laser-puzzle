@@ -11,6 +11,22 @@ extern "C" {
     }
 }
 
+// リスタート
+extern "C" {
+    EMSCRIPTEN_KEEPALIVE void restartGame() {
+        game.reStart();
+    }
+}
+
+
+// 次ステージに行く
+extern "C" {
+    EMSCRIPTEN_KEEPALIVE void gotoNextStage() {
+        game.gotoNextStage();
+    }
+}
+
+
 int main() {
     game.initialize();
     game.update();
