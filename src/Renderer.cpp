@@ -3,7 +3,7 @@
 
 // C++ から呼び出せる JS 関数を定義
 // (戻り値の型, 関数名, 引数)
-EM_JS(void, jsDrawTile, (int x, int y, int tileType, int CELL_SIZE), {
+EM_JS(void, jsDrawTile, (int x, int y, int tileType, int orientation, int CELL_SIZE), {
     // この中は JS
     const canvas = document.getElementById("game");
     const ctx = canvas.getContext("2d");
@@ -15,6 +15,7 @@ EM_JS(void, jsDrawTile, (int x, int y, int tileType, int CELL_SIZE), {
         "#2ecc71", // Goal
     ];
 
+
     const drawX = x * CELL_SIZE;
     const drawY = y * CELL_SIZE;
 
@@ -23,8 +24,34 @@ EM_JS(void, jsDrawTile, (int x, int y, int tileType, int CELL_SIZE), {
     ctx.fillRect(drawX, drawY, CELL_SIZE, CELL_SIZE);
 
     // マスの境界線
+    ctx.lineWidth = 1;
     ctx.strokeStyle = "#aaaaaa";
     ctx.strokeRect(drawX, drawY, CELL_SIZE, CELL_SIZE);
+
+    // 鏡の描画
+    if (tileType != 2)
+        return;
+
+    let mx1, mx2;
+    const my1 = drawY;
+    const my2 = drawY + CELL_SIZE;
+
+    if (orientation == 0) { // スラッシュ
+        mx1 = drawX + CELL_SIZE;
+        mx2 = drawX;
+    } else { // バックスラッシュ
+        mx1 = drawX;
+        mx2 = drawX + CELL_SIZE;
+    }
+
+    ctx.strokeStyle = colors[1];
+    ctx.lineWidth = 3;
+
+    // 実際に描く
+    ctx.beginPath();
+    ctx.moveTo(mx1, my1);
+    ctx.lineTo(mx2, my2);
+    ctx.stroke();
 });
 
 // Laser 描画
@@ -52,10 +79,12 @@ EM_JS(void, jsDrawLaser, (int startX, int startY, int destinationX, int destinat
 
 namespace render {
 
-    void drawTile(GridPosition pos, TileType type) {
-        jsDrawTile(pos.x, pos.y, static_cast<int>(type), CELL_SIZE);
+    // タイル（マス）を描画
+    void drawTile(GridPosition pos, Tile tile) {
+        jsDrawTile(pos.x, pos.y, static_cast<int>(tile.type), static_cast<int>(tile.orientation), CELL_SIZE);
     }
 
+    // 光線を描画
     void drawLaser(const std::vector<GridPosition> &path) {
         if (path.size() < 2)
             return;
@@ -72,6 +101,13 @@ namespace render {
             jsDrawLaser(currentPos.x, currentPos.y, val.x, val.y, CELL_SIZE);
             currentPos = val;
         }
+    }
+
+    // JS から受け取ったピクセル座標を GridPosition に変換
+    GridPosition convertPixelToGridPos(int pixelX, int pixelY) {
+        int gridX = pixelX / CELL_SIZE;
+        int gridY = pixelY / CELL_SIZE;
+        return GridPosition{gridX, gridY};
     }
 
 } // namespace render
