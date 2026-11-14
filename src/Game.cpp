@@ -14,7 +14,7 @@ void Game::render() const {
         for (int x = 0; x < Board::SIZE; x++) {
             GridPosition pos = GridPosition{x, y};
             Tile tile = board_.getTile(pos);
-            render::drawTile(pos, tile.type);
+            render::drawTile(pos, tile);
         }
     }
 
