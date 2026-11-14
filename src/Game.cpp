@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include "GridPosition.hpp"
 #include "Renderer.hpp"
+#include "UI.hpp"
 
 void Game::initialize() {
     loadStage(0);
@@ -8,6 +9,10 @@ void Game::initialize() {
 
 // TODO: Renderer クラスができたらまた変わる
 void Game::render() const {
+    // ステージ番号描画
+    ui::showStageNum(currentStageIdx_ + 1);
+
+    // 盤面描画
     for (int y = 0; y < Board::SIZE; y++) {
         for (int x = 0; x < Board::SIZE; x++) {
             GridPosition pos = GridPosition{x, y};
