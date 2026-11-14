@@ -5,6 +5,7 @@ int main() {
 
     game.initialize();
     game.render();
+    game.update();
 
     return 0;
 }
