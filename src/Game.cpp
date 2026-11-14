@@ -17,6 +17,9 @@ void Game::render() const {
             render::drawTile(pos, tile.type);
         }
     }
+
+    // 経路描画
+    render::drawLaser(laser_.getPath());
 }
 
 void Game::update() {

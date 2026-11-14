@@ -4,8 +4,8 @@ int main() {
     Game game;
 
     game.initialize();
-    game.render();
     game.update();
+    game.render();
 
     return 0;
 }
